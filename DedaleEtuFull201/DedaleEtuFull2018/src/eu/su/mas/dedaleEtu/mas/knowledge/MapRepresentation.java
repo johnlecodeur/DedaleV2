@@ -12,6 +12,8 @@ import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.view.Viewer;
 
+import architecture.Case;
+
 /**
  * This simple topology representation only deals with the graph, not its content.</br>
  * The knowledge representation is not well written (at all), it is just given as a minimal example.</br>
@@ -30,6 +32,7 @@ public class MapRepresentation implements Serializable {
 	private Graph g; //data structure
 	private Viewer viewer; //ref to the display
 	private Integer nbEdges;//used to generate the edges ids
+	private List<Case> lc;//liste de case representant les noeud du graphe
 	
 	/*********************************
 	 * Parameters for graph rendering
@@ -48,6 +51,7 @@ public class MapRepresentation implements Serializable {
 		this.g.setAttribute("ui.stylesheet",nodeStyle);
 		this.viewer = this.g.display();
 		this.nbEdges=0;
+		this.lc=lc;
 	}
 
 	/**
@@ -121,18 +125,32 @@ public class MapRepresentation implements Serializable {
 		return shortestPath;
 	}
 	
-	public List<String> getMyShortestPath(String idFrom,String idTo){
+	
+	//l idee de cette fonction est d'allé au noeud ouvert le plus proche de la position actuelle de mon agent
+	//une sorte de parcours en profondeur 
+	//ne pas oublier de changer les arguments dans exploremultibehaviour
+	public List<String> getMyShortestPath(String idFrom, List<String> openNodes){
 		List<String> shortestPath=new ArrayList<String>();
+		int size=openNodes.size();//longueur de la liste de noeud ouvert
 
 		Dijkstra dijkstra = new Dijkstra();//number of edge
 		dijkstra.init(g);
 		dijkstra.setSource(g.getNode(idFrom));
 		dijkstra.compute();//compute the distance to all nodes from idFrom
-		List<Node> path=dijkstra.getPath(g.getNode(idTo)).getNodePath(); //the shortest path from idFrom to idTo
+		double min =dijkstra.getPathLength(g.getNode(openNodes.get(0)));
+		int indice=0;
+		for(int i=0; i<size;i++) {
+			if(min>dijkstra.getPathLength(g.getNode(openNodes.get(i)))) {
+				min=dijkstra.getPathLength(g.getNode(openNodes.get(i)));
+				indice=i;
+			}
+		}
+		List<Node> path=dijkstra.getPath(g.getNode(openNodes.get(indice))).getNodePath(); //the shortest path from idFrom to node indice
 		Iterator<Node> iter=path.iterator();
 		while (iter.hasNext()){
 			shortestPath.add(iter.next().getId());
 		}
+		
 		dijkstra.clear();
 		shortestPath.remove(0);//remove the current position
 		return shortestPath;
