@@ -51,7 +51,7 @@ public class MapRepresentation implements Serializable {
 		this.g.setAttribute("ui.stylesheet",nodeStyle);
 		this.viewer = this.g.display();
 		this.nbEdges=0;
-		this.lc=lc;
+		//this.lc=lc; not that
 	}
 
 	/**
@@ -59,6 +59,15 @@ public class MapRepresentation implements Serializable {
 	 * @param id
 	 * @param mapAttribute
 	 */
+	//il faut creer un constructeur de list de case pour reprensenter la map
+	public List<Case> MapCase(){
+		List<Case> lc=null;
+		return lc;
+	}
+	
+	//adapter les fonctions addnodes
+	
+	
 	public void addNode(String id,MapAttribute mapAttribute){
 		Node n;
 		if (this.g.getNode(id)==null){

@@ -77,11 +77,11 @@ public class ExploMultiBehaviour extends SimpleBehaviour {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
+			
 			//1) remove the current node from openlist and add it to closedNodes.
 			this.closedNodes.add(myPosition);
 			this.openNodes.remove(myPosition);
-
+			
 			this.myMap.addNode(myPosition);
 
 			//2) get the surrounding nodes and, if not in closedNodes, add them to open nodes.
