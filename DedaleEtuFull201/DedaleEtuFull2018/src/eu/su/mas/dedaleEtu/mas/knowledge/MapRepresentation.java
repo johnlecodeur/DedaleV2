@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.graphstream.algorithm.Dijkstra;
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.EdgeRejectedException;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
@@ -55,13 +56,45 @@ public class MapRepresentation implements Serializable {
 	 * @param id
 	 * @param mapAttribute
 	 */
-	//il faut creer un constructeur de list de case pour reprensenter la map
-	public List<Case> MapCase(){
+	//retourne la liste des cases de la map
+	public List<Case> getMapCase(){
 		List<Case> lc= new ArrayList<Case>();
+		for(Node n : g.getEachNode()) {
+			if(n.getAttribute("ui.label")!=null) {
+				lc.add(new Case(n.getAttribute("ui.label"),n.getAttribute("ui.class")/*open_node*/,n.getAttribute("gold"),n.getAttribute("tresor"),n.getAttribute("tresor_ouvert"),n.getAttribute("wumpus")));					
+			}
+		}
+		return lc;
+	}
+	
+	//retourne la liste des aretes de la map
+	public List<Arete> getMapEdge(){
+		List<Arete> lc= new ArrayList<Arete>();
+		for(Edge e : g.getEachEdge()) {
+			if(e.getAttribute("n1")!=null) {
+				lc.add(new Arete(e.getNode0().toString(),e.getNode1().toString()));					
+			}
+		}
 		return lc;
 	}
 	
 	//adapter les fonctions addnodes
+	
+	public void addNode(Case c) {
+		MapAttribute etat=null;
+		//boolean node_open=false;
+		if(c.is_Open()==true) {
+			etat=MapAttribute.open;
+			//node_open=true;
+		}
+		addNode(c.getId(),etat,c.getGold(),c.is_Tresor(),c.is_TresorOuvert(),c.isWumpus());
+	}
+	
+	//mise a jour des information (a faire)
+	public void addNode(String id,MapAttribute etat,int gold,boolean tresor,boolean tresor_ouvert, boolean wumpus) {
+		
+	}
+	
 	
 	
 	public void addNode(String id,MapAttribute mapAttribute){
@@ -105,6 +138,19 @@ public class MapRepresentation implements Serializable {
 		}
 		
 	}
+	
+	//ajoute une arete a la repreaentation de la map a partir d'une arete
+	public void addEdge(Arete a) {
+		try {
+			this.nbEdges++;
+			this.g.addEdge(this.nbEdges.toString(), a.getN1(), a.getN2());
+		}catch (EdgeRejectedException e){
+			//Do not add an already existing one
+			this.nbEdges--;
+		}
+		}
+		
+	
 
 	/**
 	 * Compute the shortest Path from idFrom to IdTo. The computation is currently not very efficient
