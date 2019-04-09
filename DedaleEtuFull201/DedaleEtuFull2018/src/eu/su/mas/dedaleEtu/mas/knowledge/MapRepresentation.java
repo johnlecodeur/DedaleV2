@@ -12,8 +12,6 @@ import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.view.Viewer;
 
-import architecture.Case;
-
 /**
  * This simple topology representation only deals with the graph, not its content.</br>
  * The knowledge representation is not well written (at all), it is just given as a minimal example.</br>
@@ -32,7 +30,6 @@ public class MapRepresentation implements Serializable {
 	private Graph g; //data structure
 	private Viewer viewer; //ref to the display
 	private Integer nbEdges;//used to generate the edges ids
-	private List<Case> lc;//liste de case representant les noeud du graphe
 	
 	/*********************************
 	 * Parameters for graph rendering
@@ -51,7 +48,6 @@ public class MapRepresentation implements Serializable {
 		this.g.setAttribute("ui.stylesheet",nodeStyle);
 		this.viewer = this.g.display();
 		this.nbEdges=0;
-		//this.lc=lc; not that
 	}
 
 	/**
@@ -61,7 +57,7 @@ public class MapRepresentation implements Serializable {
 	 */
 	//il faut creer un constructeur de list de case pour reprensenter la map
 	public List<Case> MapCase(){
-		List<Case> lc=null;
+		List<Case> lc= new ArrayList<Case>();
 		return lc;
 	}
 	
@@ -135,7 +131,7 @@ public class MapRepresentation implements Serializable {
 	}
 	
 	
-	//l idee de cette fonction est d'allé au noeud ouvert le plus proche de la position actuelle de mon agent
+	//l idee de cette fonction est d'allï¿½ au noeud ouvert le plus proche de la position actuelle de mon agent
 	//une sorte de parcours en profondeur 
 	//ne pas oublier de changer les arguments dans exploremultibehaviour
 	public List<String> getMyShortestPath(String idFrom, List<String> openNodes){
