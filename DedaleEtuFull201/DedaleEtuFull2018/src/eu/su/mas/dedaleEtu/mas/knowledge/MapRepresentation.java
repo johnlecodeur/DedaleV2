@@ -61,7 +61,7 @@ public class MapRepresentation implements Serializable {
 		List<Case> lc= new ArrayList<Case>();
 		for(Node n : g.getEachNode()) {
 			if(n.getAttribute("ui.label")!=null) {
-				lc.add(new Case(n.getAttribute("ui.label"),n.getAttribute("ui.class")/*open_node*/,n.getAttribute("gold"),n.getAttribute("tresor"),n.getAttribute("tresor_ouvert"),n.getAttribute("wumpus")));					
+				lc.add(new Case(n.getAttribute("ui.label"),n.getAttribute("ui.class")/*open_node*/,n.getAttribute("gold"),n.getAttribute("tresor"),n.getAttribute("tresor_ouvert"),n.getAttribute("wumpus"), n.getAttribute("date")));					
 			}
 		}
 		return lc;

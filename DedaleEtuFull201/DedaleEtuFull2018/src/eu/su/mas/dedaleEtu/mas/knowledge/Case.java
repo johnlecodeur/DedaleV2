@@ -24,10 +24,10 @@ public class Case implements Serializable{
 	
 	
 	
-	public Case(String id,boolean node_open,int gold,boolean tresor,boolean tresor_ouvert, boolean wumpus) {
+	public Case(String id,boolean node_open,int gold,boolean tresor,boolean tresor_ouvert, boolean wumpus, Date date) {
 		this.id=id;
 		this.node_open=node_open;
-		date=new Date();
+		this.date=date;
 		this.gold=gold;
 		this.tresor=tresor;
 		this.tresor_ouvert=tresor_ouvert;
